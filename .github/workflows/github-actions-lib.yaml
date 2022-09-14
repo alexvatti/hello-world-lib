@@ -1,0 +1,24 @@
+name: GitHub-Actions-lib-add
+on:
+  push:
+    branches:
+      - main
+      - master
+jobs:
+  GitHub-Actions-lib:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+          gcc -c -fPIC add.c -o add.o
+          gcc add.o -shared -o libadd.so
+      - run: echo "This job's status is ${{ job.status }}."
+      
+      - name : Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: lib-artifact
+          path: libadd.so
